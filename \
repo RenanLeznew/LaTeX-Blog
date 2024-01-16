@@ -1,0 +1,417 @@
+ \documentclass{article}
+ \usepackage{bookmark}
+ \usepackage{minted}
+ \usepackage{amsmath}
+ \usepackage{amsthm}
+ \usepackage{amssymb}
+ \usepackage{pgfplots}
+ \usepackage[utf8]{inputenc}
+ \usepackage{amsfonts}
+ \usepackage[margin=2.5cm]{geometry}
+ \usepackage{graphicx}
+ \usepackage[export]{adjustbox}
+ \usepackage{fancyhdr}
+ \usepackage[portuguese]{babel}
+ \usepackage{hyperref}
+ \usepackage{multirow}
+ \usepackage{lastpage}
+ \usepackage{mathtools}
+ \usepackage{xcolor}
+ \usepackage{newtxsf}
+ \setcounter{section}{0}
+ \usemintedstyle{paraiso-dark}
+ \definecolor{darkbg}{rgb}{0.05, 0.05, 0.05} % Dark color
+
+
+ \pagestyle{fancy}
+ \fancyhf{}
+ \pgfplotsset{compat = 1.18}
+
+ \hypersetup{
+     colorlinks,
+     citecolor=black,
+     filecolor=black,
+     linkcolor=black,
+     urlcolor=black
+ }
+ \newtheorem*{def*}{\underline{Defini\c c\~ao}}
+ \newtheorem*{theorem*}{\underline{Teorema}}
+ \newtheorem*{lemma*}{\underline{Lema}}
+ \newtheorem*{prop*}{\underline{Proposi\c c\~ao}}
+ \newtheorem{example}{\underline{Exemplo}}
+ \newtheorem*{proof*}{\underline{Prova}}
+ \newtheorem*{crl*}{\underline{Corolário}}
+ \renewcommand\qedsymbol{$\blacksquare$}
+
+ \rfoot{P\'agina \thepage \hspace{1pt} de \pageref{LastPage}}
+
+\begin{document}
+
+\begin{center}
+	\vspace{1cm}
+	\LARGE
+	UNIVERSIDADE DE S\~AO PAULO
+
+	\vspace{1.3cm}
+	\LARGE
+	INSTITUTO DE CI\^ENCIAS MATEM\'ATICAS E COMPUTACIONAIS - ICMC
+
+	\vspace{1.7cm}
+	\Large
+	\textbf{Atividade Final de Probabilidade}
+
+	\vspace{1.3cm}
+	\large
+	\textbf{Renan Wenzel - 11169472}
+
+	\vspace{1.3cm}
+	\large
+	\textbf{Professor(a): Oilson Alberto Gonzatto Junior}
+
+	\textbf{E-mail: oilson.agjr@icmc.usp.br}
+
+	\vspace{1.3cm}
+	\today
+\end{center}
+
+\newpage
+\textbf{{\Huge Disclaimer}}
+\vspace{5cm}
+
+{\huge Essas notas não possuem relação com professor algum.
+
+	Qualquer erro é responsabilidade solene do autor.
+
+	Caso julgue necessário, contatar:
+
+	renan.wenzel.rw@gmail.com}
+\tableofcontents
+
+\newpage
+
+\section{Os Itens Requisitados}
+\subsection{Contextualização}
+\subsubsection*{Item 1 - Forneça três exemplos práticos de cada relação}
+Ao buscar exemplos de \textit{relações determinísticas}, buscamos por uma equação que relaciona Y e X de forma
+que ela descreva exatamente o comportamento de uma com a variação da outra. Para isso, basta olhar para as funções usuais da matemática.
+Com isso, tornando a situação mais concreta, relações determinística aparecem em quanto de troco é preciso devolver para um cliente:
+\[
+	\text{Troco(Preço) = Preço - Pago.}
+\]
+Outras situações comuns que ilustram esse tipo de relação aparecem, por exemplo, quando determinamos a velocidade
+de um objeto ao longo de 4 segundos com uma aceleração constante a, descrita pelas Leis do Movimento da Física
+\[
+	\vec{v}(t) = at
+\]
+Além disso, um exemplo mais distante de uma relação determinística é a Lei de Stefan-Boltzmann, que relaciona a temperatura efetiva
+de uma estrela com a sua luminosidade
+\[
+	L = 4\pi R^{2}\sigma T^{4},
+\]
+em que \(R\) é o raio, \(\sigma \) é a constante de Stefan-Boltzmann e \(T\) é a temperatura.
+
+No quesito das \textit{relações estatísticas}, não somos capazes de relacionar valores de X a valores exatos de Y. Para visualizar esse tipo de
+relação, um dos mais simples é a relação entre massa e altura, pois, sabe-se que existe uma relação entre elas, mas nunca é exata, estimamos apenas uma
+média. Em especial, isto ocorre pois há muitas partes da relação que saem do controle do nosso conhecimento, como a genética, a dieta, estilo de vida, etc.
+
+O segundo exemplo, ainda na parte genética e biológica, relaciona estatisticamente as taxas de mutação genética e taxa de evolução,
+pois há uma dependência nas mudanças evolutivas diretamente influenciada pela genética. No entanto, devido a complexidade de fatores
+ambientais e populacionais, não é possível encontrar uma equação exata que relacione-as.
+
+Ainda neste prisma, um exemplo final é o Princípio da Incerteza de Heisenberg, que afirma justamente a impossibilidade de determinar precisamente
+a posição e o momento de uma partícula. Apesar de ser matematicamente expresso por
+\[
+	\Delta x\Delta p \geq \frac{\hbar}{2},
+\]
+sendo \(\Delta x\) a incerteza na posição, \(\Delta p\) a incerteza no momento e \(\hbar\) a constante de Planck reduzida, essa expressão \textbf{não} é
+uma equação, muito menos um valor exato.
+\subsection{O Melhor Ajuste Linear}
+\subsubsection*{Item 2a - Qual dessas retas você acredita ser uma boa representação para a relação que vemos?}
+De primeira vista, a tendência seria dizer que a reta verde é a que mais aproxima a representação para a relação, pois ela passa quase diretamente
+por vários pontos do gráfico. No entanto, a reta vermelha, apesar de não passar tão perto desses pontos, aproxima melhor os valores dispersos do gráfico, no sentido
+de ter uma distância média dos pontos à reta menor do que a reta verde. Portanto, sem nenhum estudo prévio além da análise escrita, eu acredito que a vermelha aproxima
+a relação melhor do que a verde.
+\subsubsection*{Item 2b - Como somos capazes de identificar a reta que melhore se ajusta aos dados que temos?}
+Para isso, não adianta escolher uma reta que passe por valores exatos e fique mais distante de outros, isso gerará um conjunto de dados
+com maior incerteza ao realizar a análise. Alguns problemas surgiriam disso - se modelássemos algo como o clima baseado em uma função que pega precisamente
+alguns valores e deixa outros em extremos, a modelagem erraria em muitas predições de chuvas e catastrofes, mesmo que acertasse alguns casos isolados mais precisamente.
+
+Sendo assim, para identificar a reta que melhore se ajusta aos dados que temos, seguindo o raciocínio acima, deveríamos buscar uma modelagem que aproxima mais valores, mesmo que de forma menos
+precisa, como é o caso da reta vermelha, que dista dos pontos com um \textit{``erro médio''} menor que o erro médio da reta verde.
+\subsubsection*{Item 3 - À luz do que foi dito anteriormente, qual dessas retas seria a melhor escolha?}
+Para identificar qual seria a melhor reta, devemos calcular, por meio do critério dos mínimos quadrados, qual delas tem o menor erro. Sabemos os valores de
+\(\beta_0\) e \(\beta_1\) para as duas retas, ou seja, é uma questão puramente baseada em resolver as contas
+\[
+	Q(\beta_{0}, \beta_1) = \sum\limits_{i=0}^{n}(Y_{i} - \hat{Y}_{i})^{2} \sum\limits_{i=0}^{n}(Y_{i} - \beta_{0} -\beta_1 X_{i})^{2}.
+\]
+Para facilitar as contas, vamos colocar os valores de (X, Y) em uma tabela:
+\begin{center}
+	\begin{table}[h!]
+		\caption{Valores de X e Y}
+		\centering
+		\begin{tabular}{| c | c c c c c c c c c c|}
+			\hline
+			Variáveis & \multicolumn{10}{c |}{Valores}                                                                                \\
+			\hline
+			X         & 62                             & 64     & 67   & 68     & 69     & 72     & 72     & 73     & 72     & 76     \\
+			Y         & 2032                           & 1936   & 2272 & 2512   & 2592   & 2496   & 2704   & 2640   & 2896   & 3328   \\
+			\(Y_{r}\) & 1905.5                         & 2077.8 & 2336 & 2422.1 & 2508.2 & 2766.4 & 2766.4 & 2852.5 & 2766.4 & 3110.8 \\
+			\(Y_{v}\) & 1834.3                         & 2004.2 & 2259 & 2343.9 & 2428.8 & 2683.6 & 2683.6 & 2768.6 & 2683.6 & 3023.4 \\
+			\hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+Agora, utilizando estes valores, podemos calcular os erros individuais e, finalmente, utilizar o critério de mínimos quadrados. Guardaremos os valores em outra tabela a seguir
+\begin{center}
+	\begin{table}[h!]
+		\caption{Erros médios}
+		\centering
+		\begin{tabular}{| c | c c c c c |}
+			\hline
+			Erros                                        & \multicolumn{5}{c |}{i-Ésimo Registro}                                                                                                         \\
+			\hline
+			\(\varepsilon_{i}^{(r)}\) (i = 0 até i = 4)  & \((2032 - 1905.5)^{2}\)                & \((1936 - 2077.8)^{2}\) & \((2272 - 2336)^{2}\)   & \((2512 - 2422.1)^{2}\) & \((2592 - 2508.2)^{2}\) \\
+			\(\varepsilon_{i}^{(r)}\) (i = 5 até i = 10) & \((2496 - 2766.4)^{2}\)                & \((2704 - 2766.4)^{2}\) & \((2640 - 2852.5)^{2}\) & \((2896 - 2766.4)^{2}\) & \((3328 - 3110.8)^{2}\) \\
+			\hline
+			\(\varepsilon_{i}^{(v)}\) (i= 0 até i = 4)   & \((2032 - 1834.3)^{2}\)                & \((1936 - 2004.2)^{2}\) & \((2272 - 2259)^{2}\)   & \((2512 - 2343.9)^{2}\) & \((2592 - 2428.8)^{2}\) \\
+			\(\varepsilon_{i}^{(v)}\) (i= 5 até i = 10)  & \((2496 - 2683.6)^{2}\)                & \((2704 - 2683.6)^{2}\) & \((2640 - 2768.6)^{2}\) & \((2896 - 2683.6)^{2}\) & \((3328 - 3023.4)^{2}\) \\
+			\hline
+		\end{tabular}
+	\end{table}
+\end{center}
+Fazendo as contas, chegamos em
+\begin{align*}
+	 & Q(-3431.66, 86.08) = 15976.96 + 20107.24 + 4096 + 8082.01 + 7022.44 + 73116.16 + 45156.25 + 16796.16 + 47175.84 = 237529.05. \\
+	 & Q(-3431.66, 84.93) = 39085.29 + 4651.24 + 169 + 28257.61 + 26634.24 + 35193.76 + 416.16 + 16537.96 + 45113.76 + 92781.16     \\
+	 & \quad\quad\quad \quad \quad \quad \quad \quad \quad  = 288840.18 .
+\end{align*}
+Olhando para os resultados e mantendo em mente que o modelo mais preciso é aquele com menor valor do critério de mínimos quadrados, observe que o valor da reta vermelha é \textbf{menor} que o
+da reta verde. Consequentemente, a reta vermelha, tendo em vista o raciocínio anterior, é a que melhor representa o conjunto de dados recebido.
+\subsubsection*{Item 4 - Mas o que podemos dizer sobre qualquer outra reta, que sequer foi considerada?}
+Existem retas que podem aproximar o conjunto de dados melhor e retas que podem aproximar pior, dependendo dos coeficientes linear e angular da equação dela. Utilizando os raciocínios do cálculo para a otimização,
+é possível encontrar uma função que otimize o valor mínimo do critério. Para isso, devemos encontrar as derivadas, mas a expressão de Q contém alguns parâmetros - \(Y_{i}, \beta_{0}, \beta_1\) e \(X_{i}\). Qual deles devemos derivar?
+Para responder isso, observe que o conjunto de dados permanece o mesmo para duas quaisquer retas. Sendo assim, as únicas coisas que mudam são \(\beta_{0}\) e \(\beta_1\). Logo,
+buscamos as derivadas dos coeficientes para minimizar o ângulo e a intercepção da reta. Em outras palavras,
+\begin{align*}
+	\frac{\partial^{}Q}{\partial \beta_{0}^{}} & = \frac{d^{}}{d\beta_{0}^{}} \biggl(\sum\limits_{i=1}^{n}(Y_{i} - \beta_{0} - \beta_1 X_{i})^{2}\biggr)                                                                 \\
+	                                           & = \sum\limits_{i=1}^{n}\frac{d^{}}{d\beta_{0}^{}}(Y_{i} - \beta_{0} - \beta_1 X_{i})^{2}                                                                                \\
+	                                           & = \sum\limits_{i=1}^{n}\frac{d^{}}{d\beta_{0}^{}}(X_{i}^{2}\beta_{1}^{2} - 2X_{i}Y_{i}\beta_{1} + 2X_{i}\beta_{0}\beta_1 + Y_{i}^{2} - 2Y_{i}\beta_{0} + \beta_{0}^{2}) \\
+	                                           & = \sum\limits_{i=1}^{n}2\beta_1 - 2Y_{i} + 2\beta_{0}                                                                                                                   \\
+	                                           & = \sum\limits_{i=1}^{n}2(\beta_1 - Y_{i} + \beta_{0}) = 2\sum\limits_{i=1}^{n}(\beta_1 - Y_{i} + \beta_{0}).
+\end{align*}
+Fazendo o mesmo para a derivada parcial com respeito a \(\beta_1,\)
+\begin{align*}
+	\frac{\partial^{}Q}{\partial \beta_1^{}} & =\frac{d^{}}{d\beta_1^{}}\biggl(\sum\limits_{i=1}^{n}(Y_{i}-\beta_{0}-\beta_1 X_{i})^{2}\biggr)                                                                    \\
+	                                         & = \sum\limits_{i=1}^{n}\frac{d^{}}{d\beta_1^{}}(X_{i}^{2}\beta_{1}^{2}-2X_{i}Y_{i}\beta_1 + 2X_{i}\beta_{0}\beta _1 + Y_{i}^{2} - 2Y_{i}\beta_{0} + \beta_{0}^{2}) \\
+	                                         & = \sum\limits_{i=1}^{n}2\beta_{1}X_{i}^{2} - 2X_{i}Y_{i} + 2X_{i}\beta_{0}                                                                                         \\
+	                                         & = \sum\limits_{i=1}^{n}2X_{i}(\beta_{1}X_{i} - Y_{i} + \beta_{0})                                                                                                  \\
+	                                         & = 2\sum\limits_{i=1}^{n}X_{i}(\beta_{1}X_{i} - Y_{i} + \beta_{0})
+\end{align*}
+Utilizando o aprendido em cálculo, os pontos de máximo e mínimo de uma função ocorrem quando suas derivadas anulam-se, ou seja, é o que faremos a seguir - anular ambas as derivadas e resolver um sistema de equações baseado nisso.
+\[
+	\left\{\begin{array}{ll}
+		-2\sum\limits_{i=1}^{n}(Y_{i} - \beta_{0} - \beta_1 X_{i}) = 0 \\
+		-2\sum\limits_{i=1}^{n}(Y_{i} - \beta_{0} - \beta_1 X_{i})X_{i} = 0.
+	\end{array}\right.
+\]
+Os valores de \(\beta_{0}\) e \(\beta_1\) satisfazendo isso serão inerentemente os valore que fornecerão as melhores retas para aproximar o conjunto de dados fornecido.
+\subsection{A Perspectiva Estatística}
+\subsubsection*{Item 5 - Certamente podem existir muitos valores de seguros associados a esse mesmo valor de veículo. Mas o que nosso modelo deveria nos dizer sobre isso?}
+Levaremos em contas alguns valores que nosso modelo possui. Um deles é o valor médio da variável aleatória Y condicionada ao valor x da variável preditora X, isto é,
+\[
+	\mu_{Y\mid x} = \mathbb{E}(Y\mid X = x) = \beta_{0} + \beta _{1}x,
+\]
+pois ele permite encontrarmos a média de Y para a subpopulação dos que valem 72000,00 reais, sendo ela fornecida por
+\[
+	\mu_{Y\mid 72} = \beta_{0} + \beta_{1} 72.\quad \text{(Lembrando que X foi dado em milhares de reais até o momento.)}
+\]
+Tendo conhecimento da média, somos capazes de afirmar que a variável aleatória Y condicionada a \(X = 72\) desviará da média em um valor \(\varepsilon \), i.e.,
+\[
+	Y = \beta_{0} + \beta_{1}72 + \varepsilon  = \varepsilon + \mathbb{E}(Y\mid X = 72)
+\]
+Uma consequência (feliz) disso é que, caso seja fornecido o valor real de Y, conseguimos estimar qual é a distância dele com relação à média por meio de
+\[
+	Y - \mathbb{E}(Y\mid X = 72) = \varepsilon
+\]
+Assim, o nosso modelo possibilita analisarmos quão longe do valor esperado do seguro o valor observado está. Caso conheçamos o erro de predição para cada amostra do nosso modelo,
+conseguimos estimar, a menos da média, o valor observado em cada uma das amostras. Porém, como foi visto em partes anteriores, o erro de predição depende diretamente do tipo de modelo,
+ou seja, ter conhecimento de vários erros de predição implica em conhecimentos específicos para sobre o modelo sendo utilizado.
+
+Ainda sobre o erro, vale constar que fatores que alteram o modelo também irão alterar o valor dele. O que isto significa é que, quanto mais simplificações ou alterações forem feitas,
+mais diferente serão os valores modelados dos esperados. Para o exemplo do seguro dos carros, ao cortar fatores como a região em que os dados foram obtidos, o cenário política, eventos climáticos,
+e até mesmo a quantidade de minerais explorados do planeta em dado tempo, não seremos capazes de chegar em um modelo totalmente preciso e, quanto mais elementos deixarmos de fora da análise,
+maiores serão os erros observados.
+\subsubsection*{Item 6 - Reflitam sobre o que chamamos de erro de predição (\(\varepsilon \)). Considerando as discussões que tivemos ao longo do semestre, qual a nossa expectativa realista sobre ele}
+A expectativa sobre ele é que, já que existem tantas variáveis alterando no modelo quanto se deseja, nunca seremos capazes de anulá-los por completo, sempre haverá alguma coisa que foi deixada de fora e que irá interferir com a precisão. No entanto,
+isso quer dizer que podemos estar menos errados sobre as afirmações quanto ao conjunto de dados baseado em quantas variáveis considerarmos. Como o Teorema Central do Limite existe, podemos pegar uma coleção de dados sobre a variável, calcular as médias deles,
+buscar a média das médias e obter um valor quão próximo desejado da verdadeira média do modelo. A partir disso, tendo em mente que o erro depende das considerações feitas previamente ao modelo, somos capazes de obter uma aproximação muito boa do modelo real
+com base nesses conhecimentos e na fórmula encontrada no item anterior.
+
+Em conclusão, o erro de predição consiste em uma parte essencial para um entendimento profundo do modelo e das variáveis aleatórias a ele relacionadas. Em particular, seguindo o raciocínio da última linha do exemplo anterior, ter informações do \textbf{erro}
+e da \textbf{média} do modelo, conseguimos recuperar a variável dependente Y através das variáveis que ela depende, X.
+\subsubsection*{Item 7 - Considerando tudo o que viemos discutindo ao longo do semestre, enumere algumas consequências diretas da suposição \(\varepsilon \sim \mathrm{Normal}(0, \sigma ^{2})\), sobre algumas quantidades importantes no nosso modelo. Por exemplo, o que se pode dizer sobre \(Y\mid x\), qual seria sua média, variância e distribuição? E, também, o que podemos dizer sobre \(\hat{\beta }_{0}\) e \(\hat{\beta }_{1}?\)}
+Vamos lidar com essa questão através de duas partes. Na primeira, analisaremos o modelo em geral, entendendo como a suposição do erro seguir uma
+distribuição normal afeta casos gerais. Em seguida, faremos um estudo com o modelo específico.
+
+A partir do momento que supomos que \(\varepsilon \sim \mathrm{Normal}(0, \sigma ^{2})\), segue diretamente da definição do modelo normal que, já pela notação, a média do modelo para o erro é 0 e seu desvio padrão é \(\sigma \). Além disso, a sua densidade de probabilidade é descrita por
+\[
+	F(\varepsilon )=\frac{1}{\sqrt[]{2\pi \sigma ^{2}}}e^{-\frac{\varepsilon^{2} }{2\sigma^{2} }} = \frac{1}{\sqrt[]{2\pi \sigma^{2}}e^{\frac{\varepsilon^{2}}{2\sigma^{2}}}}.
+\]
+Se considerarmos o erro aproximadamente como a diferença entre o valor obsrevado num registro \(X_{i} = x\) e o valor estimado para ele, ou seja,
+\[
+	\varepsilon \approx Y_{i} - \overline{Y}_{i} = \beta_{0} + \beta_{1}x - \overline{Y}_{i},
+\]
+então podemos inferir, a partir da hipótese de que o erro é normalmente distribuído, que a \textbf{diferença entre o valor observado e o valor registrado também segue uma distribuição normal.} Consequentemente, para
+um registro \(x_{i}\) e um valor esperado \(\overline{Y}_{i}\), coloque \(k = \frac{1}{\sqrt[]{2\pi \sigma^{2}}}\) para simplifcar a notação e segue que
+\begin{align*}
+	F(\beta_{0}, \beta_{1}) = \frac{1}{\sqrt[]{2\sigma^{2}\pi }}e^{-\frac{1}{2}(\mu_{Y_{i}\mid x_i}- \overline{Y}_{i})^{2}} & = \frac{1}{k}e^{-\frac{\mu_{Y_{i}\mid x_{i}}^{2}}{2} + 2\mu_{Y_{i}\mid x_{i}}\overline{Y}_{i} - \frac{\overline{Y}_{i}^{2}}{2}}     \\
+	                                                                                                                        & = \frac{1}{k}e^{-\frac{\mu_{Y_{i}\mid x_{i}}^{2}}{2}}e^{2\mu_{Y_{i}\mid x_{i}}\overline{Y}_{i}}e^{-\frac{\overline{Y}_{i}^{2}}{2}}.
+\end{align*}
+Expandindo \(\mu_{Y_{i}\mid x_{i}} = \beta_{0} + \beta_{1}x_{i}\), chegamos em
+\begin{align*}
+	F(\beta_{0}, \beta _{1}) = \frac{1}{k} e^{-\frac{\beta_{0}^{2}}{2} - \beta_{0}\beta_{1}x_{i} - \frac{\beta_{1}^{2}}{2}}e^{2\beta_{0}\overline{Y}_{i} + 2\beta_1x_{i}\overline{Y}_{i}}
+\end{align*}
+Em particular, se fizermos um gráfico com a distribuição do erro, ele será centrado na origem (0), com uma curtose igual a 3 e não possui assimetria alguma. Além disso, quanto menor o erro, menor será o termo exponencial, ou seja, maior será o valor da
+distribuição. Sendo mais específico,
+\begin{align*}
+	 & F(\varepsilon +)\coloneqq \lim_{\varepsilon \to +\infty}F(\varepsilon ) = \frac{1}{\sqrt[]{2\pi \sigma^{2}}} \lim_{\varepsilon \to +\infty} \frac{1}{e^{\frac{\varepsilon^{2}}{2\sigma^{2}}}} = 0       \\
+	 & F(\varepsilon -)\coloneqq \lim_{\varepsilon \to -\infty}F(\varepsilon ) = \frac{1}{\sqrt[]{2\pi \sigma^{2}}} \lim_{\varepsilon \to -\infty} \frac{1}{e^{\frac{\varepsilon^{2}}{2\sigma^{2}}}} = \infty.
+\end{align*}
+limitam nossa modelagem do erro para \([0, \infty].\)
+
+Sobre nosso modelo, como \(Y\mid x = \beta_{0} + \beta_{1}x + \varepsilon = \mu_{Y\mid x}\varepsilon.\)
+
+\subsubsection*{Item 8 - Tendo em mente que os resíduos são nossas ``estimativas'' dos erros de predição \(\varepsilon \), i.e., \(\hat{\varepsilon }_{i} = Y_{i} - \hat{Y}_{i}\), para \(i = 1, 2,\dotsc , n\). O que esperamos e o que não esperamos observar em cada um desses gráficos?}
+\subsubsection*{Item 9 - Quais as fontes de incerteza sobre a construção do intervalo para \(\mathbb{E}(Y\mid x^{*}) = \mu_{Y\mid x^{*}}\)?}
+\subsubsection*{Item 10 - Quais as fontes de incerteza sobre a construção do intervalo para \(Y\mid x^{*}\)? }
+
+\section{Analisando os Dados}
+\begin{minted}[breaklines, breakautoindent, bgcolor=darkbg]{R}
+# Bibliotecas necessárias -----
+# ------------------------------------------------------------------------------
+  library(tidyverse)
+  library(scales)
+  library(broom)
+
+# Organizando os dados do exemplo -----
+# ------------------------------------------------------------------------------
+  dados = 
+    data.frame(
+      x=c(62,64,67,68,69,72,72,73,72,76), 
+      y=c(2032,1936,2272,2512,2592,2496,2704,2640,2896,3328)
+    ) 
+
+# Gráfico de dispersão -----
+# ------------------------------------------------------------------------------
+  G0 = 
+    dados %>% 
+      ggplot() +
+      geom_point(aes(x=x, y=y)) +
+      labs(
+        x = 'Valor do veículo em milhares de reais (X)',
+        y = 'Valor anual do seguro em reais (Y)'
+      ) +
+      theme_minimal(); G0
+
+# Ajustando o modelo de regressão linear simples -----
+# ------------------------------------------------------------------------------
+  modelo = lm(formula=y~x, data=dados)
+  
+# Obtendo a tabela resumo dos resultados -----
+# ------------------------------------------------------------------------------
+  summary(modelo)
+
+# Intervalos de confiança para os coeficientes beta0 e beta1 -----
+# ------------------------------------------------------------------------------
+  confint(modelo)
+
+# Gráficos dos resíduos -----
+# ------------------------------------------------------------------------------
+  sigma_hat = sigma(modelo)
+  
+  R0 = 
+    augment(modelo) %>%
+      mutate(id=1:n()) %>% 
+      ggplot() +
+      geom_point(aes(x=id, y=.resid)) +
+      geom_hline(yintercept=0, linetype='dashed') +
+      geom_hline(yintercept=c(-sigma_hat,sigma_hat), linewidth=1.0) +
+      geom_hline(yintercept=c(-2*sigma_hat,2*sigma_hat), linewidth=0.5) +
+      scale_x_continuous(breaks=1:10) +
+      labs(x='Observação', y='Resíduo simples') +
+      theme_minimal(); R0
+  
+  R1 = 
+    augment(modelo) %>%
+    ggplot() +
+    geom_point(aes(x=.fitted, y=.resid)) +
+    geom_hline(yintercept=0, linetype='dashed') +
+    geom_hline(yintercept=c(-sigma_hat,sigma_hat), linewidth=1.0) +
+    geom_hline(yintercept=c(-2*sigma_hat,2*sigma_hat), linewidth=0.5) +
+    labs(x=parse(text='hat(Y)'), y='Resíduo simples') +
+    theme_minimal(); R1
+  
+  R2 = 
+    augment(modelo) %>%
+    ggplot() +
+    geom_point(aes(x=x, y=.resid)) +
+    geom_hline(yintercept=0, linetype='dashed') +
+    geom_hline(yintercept=c(-sigma_hat,sigma_hat), linewidth=1.0) +
+    geom_hline(yintercept=c(-2*sigma_hat,2*sigma_hat), linewidth=0.5) +
+    labs(x='X', y='Resíduo simples') +
+    theme_minimal(); R2
+  
+  R3 = 
+    augment(modelo) %>% 
+    ggplot(aes(sample=.resid)) +
+    geom_qq() +
+    geom_qq_line() +
+    labs(x='Quantis Teóricos', y='Quantis Amostrais') +
+    theme_minimal(); R3
+  
+# Intervalos de confiança para a média (reta de regressão) -----
+# ------------------------------------------------------------------------------
+  new.X = seq(min(dados$x),max(dados$x),l=50)
+  IC = predict(modelo, newdata=tibble(x=new.X), interval='confidence', level=0.95) %>% 
+    data.frame() %>% 
+    mutate(x=new.X)
+
+  G1 = G0 + 
+    geom_line(
+      data=IC, 
+      aes(x=x, y=fit, colour='"E(Y|x)"==mu'), 
+      linewidth=1.0
+    ) +
+    geom_ribbon(
+      data=IC, 
+      aes(x=x, ymin=lwr, ymax=upr, fill='"IC("*mu*",95%)"'),
+      alpha=0.1
+    ) +
+    scale_color_manual(name=NULL, values=c('"E(Y|x)"==mu'='blue'), labels=parse_format()) +
+    scale_fill_manual(name=NULL, values=c('"IC("*mu*",95%)"'='blue'), labels=parse_format()) +
+    theme(legend.position='bottom'); G1
+
+# Intervalos de confiança para a resposta (predição) -----
+# ------------------------------------------------------------------------------
+  IP = predict(modelo, newdata=tibble(x=new.X), interval='prediction') %>% 
+    data.frame() %>% 
+    mutate(x=new.X)
+
+  G2 = G0 +
+    geom_line(
+      data=IP, 
+      aes(x=x, y=fit, colour='"E(Y|x)"==mu'), 
+      linewidth=1.0
+    ) +
+    geom_ribbon(
+      data=IP, 
+      aes(x=x, ymin=lwr, ymax=upr, fill='"IC("*Y*",95%)"'),
+      alpha=0.1
+    ) +
+    scale_color_manual(name=NULL, values = c('"E(Y|x)"==mu'='black'), labels=parse_format()) +
+    scale_fill_manual(name=NULL, values=c('"IC("*Y*",95%)"'='black'), labels=parse_format()) +
+    theme(legend.position='bottom'); G2
+\end{minted}
+
+\end{document}
