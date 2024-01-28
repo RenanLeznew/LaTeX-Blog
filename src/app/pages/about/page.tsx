@@ -1,9 +1,9 @@
 import Link from "next/link";
-import HeaderLink from "./components/HeaderLink";
+import HeaderLink from "../../components/HeaderLink";
 
-export default function Home() {
+export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col pq-2 items-center justify-between ">
+    <div>
       <header className="fixed w-full backdrop-blur-md z-20">
         <div className="mx-auto max-w-3xl gap-3 p-2 relative">
           <HeaderLink link="https://github.com/renanleznew/">GitHub</HeaderLink>
@@ -12,15 +12,13 @@ export default function Home() {
             Google Drive
           </HeaderLink>
           <Link
-            href="/pages/about/"
+            href="/"
             className="font-semibold absolute top-2 tracking-tighter text-black right-4"
           >
-            Renan Wenzel
+            Voltar
           </Link>
         </div>
       </header>
-
-      <h1 className="text-lg left-50%"> Testing </h1>
-    </main>
+    </div>
   );
 }
